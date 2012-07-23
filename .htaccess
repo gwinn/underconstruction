@@ -1,0 +1,39 @@
+
+AddDefaultCharset UTF-8
+DirectoryIndex index.html
+
+RewriteEngine On
+RewriteBase /
+
+
+# Fix Apache internal dummy connections from breaking [(site_url)] cache
+RewriteCond %{HTTP_USER_AGENT} ^.*internal\ dummy\ connection.*$ [NC]
+RewriteRule .* - [F,L]
+RewriteCond %{REQUEST_METHOD} ^(HEAD|GET) [NC]
+RewriteCond %{HTTP:Range} ([0-9]*-[0-9]*)(\s*,\s*[0-9]*-[0-9]*)+
+RewriteRule .* - [F]
+SetEnvIf Range (?:,.*?){5,5} bad-range=1
+RequestHeader unset Range env=bad-range
+RequestHeader unset Request-Range
+
+# Rewrite domain.com -> www.domain.com -- used with SEO Strict URLs plugin
+#RewriteCond %{HTTP_HOST} .
+#RewriteCond %{HTTP_HOST} !^www\.example\.com [NC]
+#RewriteRule (.*) http://www.example.com/$1 [R=301,L]
+
+# Exclude /assets and /manager directories and images from rewrite rules
+#RewriteRule ^(manager|assets)/*$ - [L]
+#RewriteRule \.(jpg|jpeg|png|gif|ico)$ - [L]
+
+# For Friendly URLs
+#RewriteCond %{REQUEST_FILENAME} !-f
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteRule ^(.*)$ index.php?q=$1 [L,QSA]
+
+# Turn off register globals & diaply errors
+# Reduce server overhead by enabling output compression if supported.
+php_flag display_errors Off
+php_flag register_globals Off
+php_value date.timezone Europe/Moscow
+php_flag zlib.output_compression On
+php_value zlib.output_compression_level 5

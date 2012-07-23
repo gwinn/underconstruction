@@ -1,0 +1,36 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    background: #ffffff;
+    font-family: Trebuchet MS, Ubuntu, Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight:  bold;
+    color: #434143;
+}
+
+#wesorry {
+    width: 300px;
+    margin: 18% auto;
+    text-align: center;
+}
+
+#wesorry div {
+    margin: 0px 0px 15px 0px;
+}
+
+#work {
+    opacity: 0;
+}
+
+#work img {
+    position: relative;
+}
+
+#work img:hover {
+    cursor: pointer;
+}
+
+#texts {
+    position: relative;
+    z-index: 9999;
+}
